@@ -2,7 +2,11 @@
 
 import fs from 'fs'
 import path from 'path'
-
+/**
+ * Checks if the current package is an ECMAScript module.
+ *
+ * @returns {boolean} - Returns true if the package is an ECMAScript module, false otherwise.
+ */
 function isESM() {
   const pkgPath = path.resolve('./package.json')
 
@@ -13,7 +17,6 @@ function isESM() {
     return false
   }
 }
-
 export function init(args) {
   let messages = []
 
