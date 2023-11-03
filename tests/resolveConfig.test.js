@@ -1,6 +1,5 @@
 import resolveConfig from '../src/util/resolveConfig'
 import corePluginList from '../src/corePluginList'
-
 test('prefix key overrides default prefix', () => {
   const userConfig = {
     prefix: 'tw-',
@@ -31,7 +30,6 @@ test('prefix key overrides default prefix', () => {
     },
   })
 })
-
 test('important key overrides default important', () => {
   const userConfig = {
     important: true,
@@ -62,7 +60,6 @@ test('important key overrides default important', () => {
     },
   })
 })
-
 test('important (selector) key overrides default important', () => {
   const userConfig = {
     important: '#app',
@@ -93,7 +90,6 @@ test('important (selector) key overrides default important', () => {
     },
   })
 })
-
 test('separator key overrides default separator', () => {
   const userConfig = {
     separator: '__',
@@ -124,7 +120,6 @@ test('separator key overrides default separator', () => {
     },
   })
 })
-
 test('theme key is merged instead of replaced', () => {
   const userConfig = {
     theme: {
@@ -183,7 +178,6 @@ test('theme key is merged instead of replaced', () => {
     },
   })
 })
-
 test('theme key is deeply merged instead of replaced', () => {
   const userConfig = {
     theme: {
@@ -233,7 +227,6 @@ test('theme key is deeply merged instead of replaced', () => {
     },
   })
 })
-
 test('missing top level keys are pulled from the default config', () => {
   const userConfig = {}
 
@@ -264,7 +257,6 @@ test('missing top level keys are pulled from the default config', () => {
     },
   })
 })
-
 test('functions in the default theme section are lazily evaluated', () => {
   const userConfig = {
     theme: {
@@ -317,7 +309,6 @@ test('functions in the default theme section are lazily evaluated', () => {
     },
   })
 })
-
 test('functions in the user theme section are lazily evaluated', () => {
   const userConfig = {
     theme: {
@@ -380,7 +371,6 @@ test('functions in the user theme section are lazily evaluated', () => {
     },
   })
 })
-
 test('theme values in the extend section extend the existing theme', () => {
   const userConfig = {
     theme: {
@@ -444,7 +434,6 @@ test('theme values in the extend section extend the existing theme', () => {
     },
   })
 })
-
 test('theme values in the extend section extend the user theme', () => {
   const userConfig = {
     theme: {
@@ -525,7 +514,6 @@ test('theme values in the extend section extend the user theme', () => {
     },
   })
 })
-
 test('theme values in the extend section can extend values that are depended on lazily', () => {
   const userConfig = {
     theme: {
@@ -584,7 +572,6 @@ test('theme values in the extend section can extend values that are depended on 
     },
   })
 })
-
 test('theme values in the extend section are not deeply merged when they are simple arrays', () => {
   const userConfig = {
     theme: {
@@ -627,7 +614,6 @@ test('theme values in the extend section are not deeply merged when they are sim
     },
   })
 })
-
 test('theme values in the extend section are deeply merged, when they are arrays of objects', () => {
   const userConfig = {
     theme: {
@@ -696,7 +682,6 @@ test('theme values in the extend section are deeply merged, when they are arrays
     },
   })
 })
-
 test('the theme function can use a default value if the key is missing', () => {
   const userConfig = {
     theme: {
@@ -747,7 +732,6 @@ test('the theme function can use a default value if the key is missing', () => {
     },
   })
 })
-
 test('the theme function can resolve function values', () => {
   const userConfig = {
     theme: {
@@ -812,7 +796,6 @@ test('the theme function can resolve function values', () => {
     },
   })
 })
-
 test('the theme function can resolve deep function values', () => {
   const userConfig = {
     theme: {
@@ -858,7 +841,6 @@ test('the theme function can resolve deep function values', () => {
     },
   })
 })
-
 test('theme values in the extend section are lazily evaluated', () => {
   const userConfig = {
     theme: {
@@ -922,7 +904,6 @@ test('theme values in the extend section are lazily evaluated', () => {
     },
   })
 })
-
 test('lazily evaluated values have access to the config utils', () => {
   const userConfig = {
     theme: {
@@ -1015,7 +996,9 @@ test('lazily evaluated values have access to the config utils', () => {
     },
   })
 })
-
+/**
+ * Test to ensure that the original theme is not mutated when resolving configuration.
+ */
 test('the original theme is not mutated', () => {
   const userConfig = {
     theme: {
@@ -1043,6 +1026,9 @@ test('the original theme is not mutated', () => {
 
   resolveConfig([userConfig, defaultConfig])
 
+  /**
+   * Expect the user configuration to remain unchanged after resolving configuration.
+   */
   expect(userConfig).toEqual({
     theme: {
       extend: {
@@ -1053,7 +1039,6 @@ test('the original theme is not mutated', () => {
     },
   })
 })
-
 test('custom properties are multiplied by -1 for negative values', () => {
   const userConfig = {
     theme: {
@@ -1120,7 +1105,6 @@ test('custom properties are multiplied by -1 for negative values', () => {
     '-qux': '-10poops',
   })
 })
-
 test('more than two config objects can be resolved', () => {
   const firstConfig = {
     theme: {
@@ -1240,7 +1224,6 @@ test('more than two config objects can be resolved', () => {
     },
   })
 })
-
 test('plugin config modifications are applied', () => {
   const userConfig = {
     plugins: [
@@ -1278,7 +1261,6 @@ test('plugin config modifications are applied', () => {
     plugins: userConfig.plugins,
   })
 })
-
 test('user config takes precedence over plugin config modifications', () => {
   const userConfig = {
     prefix: 'user-',
@@ -1317,7 +1299,6 @@ test('user config takes precedence over plugin config modifications', () => {
     plugins: userConfig.plugins,
   })
 })
-
 test('plugin config can register plugins that also have config', () => {
   const userConfig = {
     plugins: [
@@ -1368,7 +1349,6 @@ test('plugin config can register plugins that also have config', () => {
     plugins: userConfig.plugins,
   })
 })
-
 test('plugin configs take precedence over plugin configs registered by that plugin', () => {
   const userConfig = {
     plugins: [
@@ -1414,7 +1394,6 @@ test('plugin configs take precedence over plugin configs registered by that plug
     plugins: userConfig.plugins,
   })
 })
-
 test('plugin theme extensions are added even if user overrides top-level theme config', () => {
   const userConfig = {
     theme: {
@@ -1475,7 +1454,6 @@ test('plugin theme extensions are added even if user overrides top-level theme c
     plugins: userConfig.plugins,
   })
 })
-
 test('user theme extensions take precedence over plugin theme extensions with the same key', () => {
   const userConfig = {
     theme: {
@@ -1538,7 +1516,6 @@ test('user theme extensions take precedence over plugin theme extensions with th
     plugins: userConfig.plugins,
   })
 })
-
 test('extensions are applied in the right order', () => {
   const userConfig = {
     theme: {
@@ -1603,7 +1580,6 @@ test('extensions are applied in the right order', () => {
     },
   })
 })
-
 test('core plugin configuration builds on the default list when starting with an empty object', () => {
   const userConfig = {
     corePlugins: { display: false },
@@ -1628,12 +1604,20 @@ test('core plugin configuration builds on the default list when starting with an
     corePlugins: corePluginList.filter((c) => c !== 'display'),
   })
 })
-
+/**
+ * Tests whether core plugins that are disabled by default can be enabled.
+ */
 test('core plugins that are disabled by default can be enabled', () => {
+  /**
+   * The user's configuration.
+   */
   const userConfig = {
     corePlugins: { display: true },
   }
 
+  /**
+   * The default configuration.
+   */
   const defaultConfig = {
     presets: [],
     prefix: '',
@@ -1644,10 +1628,16 @@ test('core plugins that are disabled by default can be enabled', () => {
     corePlugins: { display: false },
   }
 
+  /**
+   * The result of resolving the configurations.
+   */
   const result = resolveConfig([userConfig, defaultConfig])
+
+  /**
+   * Expect the result's core plugins to contain 'display'.
+   */
   expect(result.corePlugins).toContain('display')
 })
-
 test('core plugin configurations stack', () => {
   const userConfig = {
     corePlugins: { display: false },
@@ -1678,7 +1668,6 @@ test('core plugin configurations stack', () => {
     corePlugins: ['float', 'padding', 'margin'],
   })
 })
-
 test('plugins are merged', () => {
   let p1 = { config: { order: '1' } }
   let p2 = { config: { order: '2' } }
@@ -1711,7 +1700,6 @@ test('plugins are merged', () => {
     plugins: [p1, p2, p3],
   })
 })
-
 test('all helpers can be destructured from the first function argument', () => {
   const userConfig = {
     theme: {
@@ -1769,7 +1757,6 @@ test('all helpers can be destructured from the first function argument', () => {
     },
   })
 })
-
 test('does not duplicate extended configs every time resolveConfig is called', () => {
   let shared = {
     foo: { bar: { baz: [{ color: 'red' }] } },
