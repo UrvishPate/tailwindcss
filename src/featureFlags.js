@@ -1,6 +1,5 @@
 import colors from 'picocolors'
 import log from './util/log'
-
 let defaults = {
   optimizeUniversalDefaults: false,
   disableColorOpacityUtilitiesByDefault: false,
@@ -8,7 +7,13 @@ let defaults = {
   oxideParser: true,
   logicalSiblingUtilities: false,
 }
-
+/**
+ * An object containing feature flags for future and experimental features.
+ * 
+ * @type {Object} featureFlags - An object containing two arrays: 'future' and 'experimental'.
+ * @property {Array} future - An array of strings representing future feature flags.
+ * @property {Array} experimental - An array of strings representing experimental feature flags.
+ */
 export let featureFlags = {
   future: [
     'hoverOnlyWhenSupported',
@@ -19,7 +24,6 @@ export let featureFlags = {
   ],
   experimental: ['optimizeUniversalDefaults', 'oxideParser'],
 }
-
 export function flagEnabled(config, flag) {
   if (featureFlags.future.includes(flag)) {
     return config.future === 'all' || (config?.future?.[flag] ?? defaults[flag] ?? false)
@@ -33,7 +37,6 @@ export function flagEnabled(config, flag) {
 
   return false
 }
-
 function experimentalFlagsEnabled(config) {
   if (config.experimental === 'all') {
     return featureFlags.experimental
@@ -43,7 +46,6 @@ function experimentalFlagsEnabled(config) {
     (flag) => featureFlags.experimental.includes(flag) && config.experimental[flag]
   )
 }
-
 export function issueFlagNotices(config) {
   if (process.env.JEST_WORKER_ID !== undefined) {
     return
@@ -60,5 +62,4 @@ export function issueFlagNotices(config) {
     ])
   }
 }
-
 export default featureFlags
