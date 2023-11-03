@@ -1,3 +1,3 @@
 import type { Config } from 'tailwindcss'
-
-export default __CONFIG__ satisfies Config
+let __CONFIG__: Config;
+export default __CONFIG__
