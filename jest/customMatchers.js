@@ -2,33 +2,31 @@ const prettier = require('prettier')
 const { diff } = require('jest-diff')
 const log = require('../src/util/log').default
 const { version } = require('../package.json')
-
+/**
+ * Returns a license string for tailwindcss with the current version.
+ *
+ * @returns {string} - A license string that includes the current version of tailwindcss.
+ */
 function license() {
   return `/* ! tailwindcss v${version} | MIT License | https://tailwindcss.com */\n`
 }
-
 let warn
-
 beforeEach(() => {
   warn = jest.spyOn(log, 'warn')
   warn.mockImplementation(() => {})
 })
-
 afterEach(() => {
   warn.mockRestore()
 })
-
 function formatPrettier(input) {
   return prettier.format(input, {
     parser: 'css',
     printWidth: 100,
   })
 }
-
 function format(input) {
   return formatPrettier(input).replace(/\n{2,}/g, '\n')
 }
-
 function toMatchFormattedCss(received = '', argument = '') {
   let options = {
     comment: 'formatCSS(received) === formatCSS(argument)',
@@ -36,8 +34,6 @@ function toMatchFormattedCss(received = '', argument = '') {
     promise: this.promise,
   }
 
-  // Drop the license from the tests such that we can purely focus on the actual CSS being
-  // generated.
   received = received.replace(license(), '')
   argument = argument.replace(license(), '')
 
@@ -72,7 +68,6 @@ function toMatchFormattedCss(received = '', argument = '') {
 
   return { actual: received, message, pass }
 }
-
 expect.extend({
   toMatchFormattedCss: toMatchFormattedCss,
   toIncludeCss(received, argument) {
@@ -123,7 +118,7 @@ expect.extend({
             this.utils.matcherHint('toHaveBeenWarned') +
             '\n\n' +
             `Expected number of calls: >= ${this.utils.printExpected(1)}\n` +
-            `Received number of calls:    ${this.utils.printReceived(actualWarningKeys.length)}`
+            `Received number of calls:    ${this.utils.printReceived(warn.mock.calls.length)}`
           )
         },
       }

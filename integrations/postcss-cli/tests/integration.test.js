@@ -1,15 +1,18 @@
 let $ = require('../../execute')
 let { css, html, javascript } = require('../../syntax')
-
 let { readOutputFile, appendToInputFile, writeInputFile } = require('../../io')({
   output: 'dist',
   input: 'src',
 })
-
+/**
+ * Checks if a given message includes the string 'Finished'.
+ * 
+ * @param {string} message - The message to check.
+ * @returns {boolean} - True if the message includes 'Finished', false otherwise.
+ */
 function ready(message) {
   return message.includes('Finished')
 }
-
 describe('static build', () => {
   it('should be possible to generate tailwind output', async () => {
     await writeInputFile('index.html', html`<div class="font-bold"></div>`)
@@ -27,7 +30,6 @@ describe('static build', () => {
     )
   })
 })
-
 describe('watcher', () => {
   test('classes are generated when the html file changes', async () => {
     await writeInputFile('index.html', html`<div class="font-bold"></div>`)

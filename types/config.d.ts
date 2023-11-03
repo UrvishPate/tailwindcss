@@ -1,6 +1,5 @@
 import type { CorePluginList } from './generated/corePluginList'
 import type { DefaultColors } from './generated/colors'
-
 // Helpers
 type Expand<T> = T extends object
   ? T extends infer O
@@ -13,7 +12,6 @@ interface RecursiveKeyValuePair<K extends keyof any = string, V = string> {
 }
 export type ResolvableTo<T> = T | ((utils: PluginUtils) => T)
 type CSSRuleObject = RecursiveKeyValuePair<string, null | string | string[]>
-
 interface PluginUtils {
   colors: DefaultColors
   theme(path: string, defaultValue?: unknown): any
@@ -21,7 +19,6 @@ interface PluginUtils {
   rgb(arg: string): (arg: Partial<{ opacityVariable: string; opacityValue: number }>) => string
   hsl(arg: string): (arg: Partial<{ opacityVariable: string; opacityValue: number }>) => string
 }
-
 // Content related config
 type FilePath = string
 type RawFile = { raw: string; extension?: string }
@@ -35,25 +32,18 @@ type ContentConfig =
       extract?: ExtractorFn | { [extension: string]: ExtractorFn }
       transform?: TransformerFn | { [extension: string]: TransformerFn }
     }
-
 // Important related config
 type ImportantConfig = boolean | string
-
 // Prefix related config
 type PrefixConfig = string
-
 // Separator related config
 type SeparatorConfig = string
-
 // Safelist related config
 type SafelistConfig = string | { pattern: RegExp; variants?: string[] }
-
 // Blocklist related config
 type BlocklistConfig = string
-
 // Presets related config
 type PresetsConfig = Partial<Config>
-
 // Future related config
 type FutureConfigValues =
   | 'hoverOnlyWhenSupported'
@@ -62,11 +52,9 @@ type FutureConfigValues =
   | 'relativeContentPathsByDefault'
   | 'logicalSiblingUtilities'
 type FutureConfig = Expand<'all' | Partial<Record<FutureConfigValues, boolean>>> | []
-
 // Experimental related config
 type ExperimentalConfigValues = 'optimizeUniversalDefaults' | 'oxideParser'
 type ExperimentalConfig = Expand<'all' | Partial<Record<ExperimentalConfigValues, boolean>>> | []
-
 // DarkMode related config
 type DarkModeConfig =
   // Use the `media` query strategy.
@@ -75,10 +63,8 @@ type DarkModeConfig =
   | 'class'
   // Use the `class` strategy with a custom class instead of `.dark`.
   | ['class', string]
-
 type Screen = { raw: string } | { min: string } | { max: string } | { min: string; max: string }
 type ScreensConfig = string[] | KeyValuePair<string, string | Screen | Screen[]>
-
 // Theme related config
 export interface ThemeConfig {
   // Responsiveness
@@ -236,14 +222,11 @@ export interface ThemeConfig {
   willChange: ResolvableTo<KeyValuePair>
   content: ResolvableTo<KeyValuePair>
 }
-
 interface CustomThemeConfig extends ThemeConfig {
   [key: string]: any
 }
-
 // Core plugins related config
 type CorePluginsConfig = CorePluginList[] | Expand<Partial<Record<CorePluginList, boolean>>>
-
 // Plugins related config
 type ValueType =
   | 'any'
@@ -346,12 +329,10 @@ export type PluginsConfig = (
   | string
   | [string, Record<string, any>]
 )[]
-
 // Top level config related
 interface RequiredConfig {
   content: ContentConfig
 }
-
 interface OptionalConfig {
   important: Partial<ImportantConfig>
   prefix: Partial<PrefixConfig>
@@ -366,7 +347,6 @@ interface OptionalConfig {
   corePlugins: Partial<CorePluginsConfig>
   plugins: Partial<PluginsConfig>
   // Custom
-  [key: string]: any
+  [key: string]: unknown
 }
-
 export type Config = RequiredConfig & Partial<OptionalConfig>

@@ -1,9 +1,8 @@
 import { splitAtTopLevelOnly } from './splitAtTopLevelOnly'
-
 let KEYWORDS = new Set(['inset', 'inherit', 'initial', 'revert', 'unset'])
-let SPACE = /\ +(?![^(]*\))/g // Similar to the one above, but with spaces instead.
+let SPACE = /\ +(?![^(]*\))/g
+// Similar to the one above, but with spaces instead.
 let LENGTH = /^-?(\d+|\.\d+)(.*?)$/g
-
 export function parseBoxShadowValue(input) {
   let shadows = splitAtTopLevelOnly(input, ',')
   return shadows.map((shadow) => {
@@ -56,7 +55,6 @@ export function parseBoxShadowValue(input) {
     return result
   })
 }
-
 export function formatBoxShadowValue(shadows) {
   return shadows
     .map((shadow) => {

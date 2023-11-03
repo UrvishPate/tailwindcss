@@ -1,11 +1,15 @@
+/**
+ * Checks if a node is of type 'root'.
+ * 
+ * @param {Object} node - The node to check.
+ * @returns {boolean} - Returns true if the node is of type 'root', otherwise returns false.
+ */
 function isRoot(node) {
   return node.type === 'root'
 }
-
 function isAtLayer(node) {
   return node.type === 'atrule' && node.name === 'layer'
 }
-
 export default function (_context) {
   return (root, result) => {
     let found = false

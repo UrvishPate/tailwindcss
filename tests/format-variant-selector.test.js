@@ -1,5 +1,4 @@
 import { finalizeSelector } from '../src/util/formatVariantSelector'
-
 it('should be possible to add a simple variant to a simple selector', () => {
   let selector = '.text-center'
   let candidate = 'hover:text-center'
@@ -8,7 +7,6 @@ it('should be possible to add a simple variant to a simple selector', () => {
 
   expect(finalizeSelector(selector, formats, { candidate })).toEqual('.hover\\:text-center:hover')
 })
-
 it('should be possible to add a multiple simple variants to a simple selector', () => {
   let selector = '.text-center'
   let candidate = 'focus:hover:text-center'
@@ -22,7 +20,6 @@ it('should be possible to add a multiple simple variants to a simple selector', 
     '.focus\\:hover\\:text-center:hover:focus'
   )
 })
-
 it('should be possible to add a simple variant to a selector containing escaped parts', () => {
   let selector = '.bg-\\[rgba\\(0\\,0\\,0\\)\\]'
   let candidate = 'hover:bg-[rgba(0,0,0)]'
@@ -33,7 +30,6 @@ it('should be possible to add a simple variant to a selector containing escaped 
     '.hover\\:bg-\\[rgba\\(0\\2c 0\\2c 0\\)\\]:hover'
   )
 })
-
 it('should be possible to add a simple variant to a selector containing escaped parts (escape is slightly different)', () => {
   let selector = '.bg-\\[rgba\\(0\\2c 0\\2c 0\\)\\]'
   let candidate = 'hover:bg-[rgba(0,0,0)]'
@@ -44,7 +40,6 @@ it('should be possible to add a simple variant to a selector containing escaped 
     '.hover\\:bg-\\[rgba\\(0\\2c 0\\2c 0\\)\\]:hover'
   )
 })
-
 it('should be possible to add a simple variant to a more complex selector', () => {
   let selector = '.space-x-4 > :not([hidden]) ~ :not([hidden])'
   let candidate = 'hover:space-x-4'
@@ -55,7 +50,6 @@ it('should be possible to add a simple variant to a more complex selector', () =
     '.hover\\:space-x-4:hover > :not([hidden]) ~ :not([hidden])'
   )
 })
-
 it('should be possible to add multiple simple variants to a more complex selector', () => {
   let selector = '.space-x-4 > :not([hidden]) ~ :not([hidden])'
   let candidate = 'disabled:focus:hover:space-x-4'
@@ -70,7 +64,6 @@ it('should be possible to add multiple simple variants to a more complex selecto
     '.disabled\\:focus\\:hover\\:space-x-4:hover:focus:disabled > :not([hidden]) ~ :not([hidden])'
   )
 })
-
 it('should be possible to add a single merge variant to a simple selector', () => {
   let selector = '.text-center'
   let candidate = 'group-hover:text-center'
@@ -81,7 +74,6 @@ it('should be possible to add a single merge variant to a simple selector', () =
     '.group:hover .group-hover\\:text-center'
   )
 })
-
 it('should be possible to add multiple merge variants to a simple selector', () => {
   let selector = '.text-center'
   let candidate = 'group-focus:group-hover:text-center'
@@ -95,7 +87,6 @@ it('should be possible to add multiple merge variants to a simple selector', () 
     '.group:focus:hover .group-focus\\:group-hover\\:text-center'
   )
 })
-
 it('should be possible to add a single merge variant to a more complex selector', () => {
   let selector = '.space-x-4 ~ :not([hidden]) ~ :not([hidden])'
   let candidate = 'group-hover:space-x-4'
@@ -106,7 +97,6 @@ it('should be possible to add a single merge variant to a more complex selector'
     '.group:hover .group-hover\\:space-x-4 ~ :not([hidden]) ~ :not([hidden])'
   )
 })
-
 it('should be possible to add multiple merge variants to a more complex selector', () => {
   let selector = '.space-x-4 ~ :not([hidden]) ~ :not([hidden])'
   let candidate = 'group-focus:group-hover:space-x-4'
@@ -120,21 +110,38 @@ it('should be possible to add multiple merge variants to a more complex selector
     '.group:focus:hover .group-focus\\:group-hover\\:space-x-4 ~ :not([hidden]) ~ :not([hidden])'
   )
 })
-
+/**
+ * Test case to verify the possibility of adding multiple unique merge variants to a simple selector.
+ */
 it('should be possible to add multiple unique merge variants to a simple selector', () => {
+  /**
+   * The initial selector to which merge variants will be added.
+   */
   let selector = '.text-center'
+
+  /**
+   * The candidate merge variant to be added to the selector.
+   */
   let candidate = 'peer-focus:group-hover:text-center'
 
+  /**
+   * The formats in which the merge variants will be added to the selector.
+   */
   let formats = [
     { format: ':merge(.group):hover &', respectPrefix: true },
     { format: ':merge(.peer):focus ~ &' },
   ]
 
+  /**
+   * The expected result after adding the merge variants to the selector.
+   */
   expect(finalizeSelector(selector, formats, { candidate })).toEqual(
     '.peer:focus ~ .group:hover .peer-focus\\:group-hover\\:text-center'
   )
 })
-
+/**
+ * Test case to check if it is possible to add multiple unique merge variants to a simple selector.
+ */
 it('should be possible to add multiple unique merge variants to a simple selector', () => {
   let selector = '.text-center'
   let candidate = 'group-hover:peer-focus:text-center'
@@ -144,11 +151,13 @@ it('should be possible to add multiple unique merge variants to a simple selecto
     { format: ':merge(.group):hover &', respectPrefix: true },
   ]
 
+  /**
+   * Expect function to compare the output of finalizeSelector function with the expected result.
+   */
   expect(finalizeSelector(selector, formats, { candidate })).toEqual(
     '.group:hover .peer:focus ~ .group-hover\\:peer-focus\\:text-center'
   )
 })
-
 it('should be possible to use multiple :merge() calls with different "arguments"', () => {
   let selector = '.foo'
   let candidate = 'peer-focus:group-focus:peer-hover:group-hover:foo'
@@ -164,7 +173,6 @@ it('should be possible to use multiple :merge() calls with different "arguments"
     '.peer:focus:hover ~ .group:focus:hover .peer-focus\\:group-focus\\:peer-hover\\:group-hover\\:foo'
   )
 })
-
 it('group hover and prose headings combination', () => {
   let selector = '.text-center'
   let candidate = 'group-hover:prose-headings:text-center'
@@ -177,7 +185,6 @@ it('group hover and prose headings combination', () => {
     '.group:hover :where(.group-hover\\:prose-headings\\:text-center) :is(h1, h2, h3, h4)'
   )
 })
-
 it('group hover and prose headings combination flipped', () => {
   let selector = '.text-center'
   let candidate = 'prose-headings:group-hover:text-center'
@@ -190,7 +197,6 @@ it('group hover and prose headings combination flipped', () => {
     ':where(.group:hover .prose-headings\\:group-hover\\:text-center) :is(h1, h2, h3, h4)'
   )
 })
-
 it('should be possible to handle a complex utility', () => {
   let selector = '.space-x-4 > :not([hidden]) ~ :not([hidden])'
   let candidate = 'peer-disabled:peer-first-child:group-hover:group-focus:focus:hover:space-x-4'
@@ -207,7 +213,6 @@ it('should be possible to handle a complex utility', () => {
     '.peer:disabled:first-child ~ .group:hover:focus .peer-disabled\\:peer-first-child\\:group-hover\\:group-focus\\:focus\\:hover\\:space-x-4:hover:focus > :not([hidden]) ~ :not([hidden])'
   )
 })
-
 it('should match base utilities that are prefixed', () => {
   let context = { tailwindConfig: { prefix: 'tw-' } }
   let selector = '.tw-text-center'
@@ -216,7 +221,6 @@ it('should match base utilities that are prefixed', () => {
 
   expect(finalizeSelector(selector, formats, { candidate, context })).toEqual('.tw-text-center')
 })
-
 it('should prefix classes from variants', () => {
   let context = { tailwindConfig: { prefix: 'tw-' } }
   let selector = '.tw-text-center'
@@ -227,7 +231,6 @@ it('should prefix classes from variants', () => {
     '.tw-foo .foo\\:tw-text-center'
   )
 })
-
 it('should not prefix classes from arbitrary variants', () => {
   let context = { tailwindConfig: { prefix: 'tw-' } }
   let selector = '.tw-text-center'
@@ -238,7 +241,6 @@ it('should not prefix classes from arbitrary variants', () => {
     '.foo .\\[\\.foo_\\&\\]\\:tw-text-center'
   )
 })
-
 it('Merged selectors with mixed combinators uses the first one', () => {
   // This isn't explicitly specced behavior but it is how it works today
 
@@ -253,7 +255,6 @@ it('Merged selectors with mixed combinators uses the first one', () => {
     '.group:hover:focus > .text-center'
   )
 })
-
 describe('real examples', () => {
   it('example a', () => {
     let selector = '.placeholder-red-500::placeholder'
@@ -329,7 +330,6 @@ describe('real examples', () => {
     })
   })
 })
-
 describe('pseudo elements', () => {
   it.each`
     before                                                   | after

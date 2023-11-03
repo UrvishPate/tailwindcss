@@ -8,8 +8,10 @@ import postcssrc from 'postcss-load-config'
 import browserslist from 'browserslist'
 import lightning, { Features } from 'lightningcss'
 import { lilconfig } from 'lilconfig'
-import loadPlugins from 'postcss-load-config/src/plugins' // Little bit scary, looking at private/internal API
-import loadOptions from 'postcss-load-config/src/options' // Little bit scary, looking at private/internal API
+import loadPlugins from 'postcss-load-config/src/plugins'
+// Little bit scary, looking at private/internal API
+import loadOptions from 'postcss-load-config/src/options'
+// Little bit scary, looking at private/internal API
 
 import tailwind from '../../processTailwindFeatures'
 import { formatNodes, drainStdin, outputFile } from './utils'
@@ -25,11 +27,14 @@ import getModuleDependencies from '../../lib/getModuleDependencies'
 import { validateConfig } from '../../util/validateConfig'
 import { handleImportAtRules } from '../../lib/handleImportAtRules'
 import { flagEnabled } from '../../featureFlags'
-
+/**
+ * Returns the license information for tailwindcss.
+ * 
+ * @returns {string} - A string containing the license information.
+ */
 function license() {
   return `/* ! tailwindcss v${pkg.version} | MIT License | https://tailwindcss.com */\n`
 }
-
 async function lightningcss(result, { map = true, minify = true } = {}) {
   try {
     let resolvedBrowsersListConfig = browserslist.findConfig(
@@ -66,7 +71,6 @@ async function lightningcss(result, { map = true, minify = true } = {}) {
     return result
   }
 }
-
 /**
  *
  * @param {string} [customPostCssPath ]
@@ -121,7 +125,6 @@ async function loadPostCssPlugins(customPostCssPath) {
 
   return [beforePlugins, afterPlugins, config.options]
 }
-
 let state = {
   /** @type {any} */
   context: null,
@@ -262,7 +265,6 @@ let state = {
     return this.context
   },
 }
-
 export async function createProcessor(args, cliConfigPath) {
   let input = args['--input']
   let output = args['--output']

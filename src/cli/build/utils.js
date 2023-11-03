@@ -2,7 +2,13 @@
 
 import fs from 'fs'
 import path from 'path'
-
+/**
+ * Recursively indents each child node in a given node.
+ *
+ * @export
+ * @param {Object} node - The node to indent.
+ * @param {number} [indent=0] - The current level of indentation.
+ */
 export function indentRecursive(node, indent = 0) {
   node.each &&
     node.each((child, i) => {
@@ -13,14 +19,12 @@ export function indentRecursive(node, indent = 0) {
       indentRecursive(child, indent + 1)
     })
 }
-
 export function formatNodes(root) {
   indentRecursive(root)
   if (root.first) {
     root.first.raws.before = ''
   }
 }
-
 /**
  * When rapidly saving files atomically a couple of situations can happen:
  * - The file is missing since the external program has deleted it by the time we've gotten around to reading it from the earlier save.
@@ -50,7 +54,6 @@ export async function readFileWithRetries(path, tries = 5) {
     }
   }
 }
-
 export function drainStdin() {
   return new Promise((resolve, reject) => {
     let result = ''
@@ -61,7 +64,6 @@ export function drainStdin() {
     process.stdin.on('error', (err) => reject(err))
   })
 }
-
 export async function outputFile(file, newContents) {
   try {
     let currentContents = await fs.promises.readFile(file, 'utf8')

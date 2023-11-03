@@ -2,19 +2,18 @@ let fs = require('fs')
 let path = require('path')
 let { cwd } = require('./cwd.js')
 let { writeConfigs, destroyConfigs } = require('./config.js')
-
 let $ = require('../../execute')
 let { css } = require('../../syntax')
-
 let { readOutputFile } = require('../../io')({
   output: 'dist',
   input: '.',
 })
-
-// Write default configs before running tests and remove them afterwards
+/**
+ * Runs before all tests.
+ * Writes default configurations before running tests.
+ */
 beforeAll(() => writeConfigs())
 afterAll(() => destroyConfigs())
-
 // Create a symlink at ./src/link that points to ./src/resolved and remove it afterwards
 beforeAll(() =>
   fs.promises.symlink(
@@ -27,10 +26,8 @@ afterAll(async () => {
     await fs.promises.unlink(path.resolve(__dirname, '../src/link'))
   } catch {}
 })
-
 // If we've changed directories reset the cwd back to what it was before running these tests
 afterEach(() => cwd.unwind())
-
 async function build({ cwd: cwdPath } = {}) {
   let inputPath = path.resolve(__dirname, '../src/index.css')
   let outputPath = path.resolve(__dirname, '../dist/main.css')
@@ -48,7 +45,6 @@ async function build({ cwd: cwdPath } = {}) {
     css: await readOutputFile('main.css'),
   }
 }
-
 it('looks in the CWD by default', async () => {
   await writeConfigs({
     both: {
@@ -71,7 +67,6 @@ it('looks in the CWD by default', async () => {
 
   expect(result.css).toMatchFormattedCss(``)
 })
-
 it('looks in the CWD for non-config-relative paths', async () => {
   await writeConfigs({
     both: {
@@ -99,7 +94,6 @@ it('looks in the CWD for non-config-relative paths', async () => {
 
   expect(result.css).toMatchFormattedCss(``)
 })
-
 it('can look for content files relative to the config', async () => {
   await writeConfigs({
     both: {
@@ -125,7 +119,6 @@ it('can look for content files relative to the config', async () => {
     }
   `)
 })
-
 it('it handles ignored globs correctly when not relative to the config', async () => {
   await writeConfigs({
     both: {
@@ -159,7 +152,6 @@ it('it handles ignored globs correctly when not relative to the config', async (
 
   expect(result.css).toMatchFormattedCss(``)
 })
-
 it('it handles ignored globs correctly when relative to the config', async () => {
   await writeConfigs({
     both: {
@@ -193,7 +185,6 @@ it('it handles ignored globs correctly when relative to the config', async () =>
     }
   `)
 })
-
 it('it can resolve symlinks for files when not relative to the config', async () => {
   await writeConfigs({
     both: {
@@ -239,7 +230,6 @@ it('it can resolve symlinks for files when not relative to the config', async ()
 
   expect(result.css).toMatchFormattedCss(``)
 })
-
 it('it can resolve symlinks for files when relative to the config', async () => {
   await writeConfigs({
     both: {

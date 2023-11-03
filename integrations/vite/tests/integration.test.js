@@ -1,15 +1,17 @@
 require('isomorphic-fetch')
-
 let $ = require('../../execute')
 let { css, html, javascript } = require('../../syntax')
-
 let { readOutputFile, appendToInputFile, writeInputFile, removeFile } = require('../../io')({
   output: 'dist',
   input: '.',
 })
-
 let PORT = 1337
-
+/**
+ * Fetches CSS from a local server and returns it as a string.
+ *
+ * @async
+ * @returns {Promise<string>} The CSS as a string.
+ */
 async function fetchCSS() {
   let response = await fetch(`http://localhost:${PORT}/index.css`, {
     headers: {
@@ -18,7 +20,6 @@ async function fetchCSS() {
   })
   return response.text()
 }
-
 describe('static build', () => {
   it('should be possible to generate tailwind output', async () => {
     await writeInputFile(
@@ -126,7 +127,6 @@ describe('static build', () => {
     )
   })
 })
-
 describe('watcher', () => {
   test('classes are generated when the html file changes', async () => {
     await writeInputFile(

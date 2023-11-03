@@ -8,7 +8,6 @@ import normalizePath from 'normalize-path'
 import { parseGlob } from '../util/parseGlob'
 import { env } from './sharedState'
 import { resolveContentPaths } from '@tailwindcss/oxide'
-
 /** @typedef {import('../../types/config.js').RawFile} RawFile */
 /** @typedef {import('../../types/config.js').FilePath} FilePath */
 
@@ -40,7 +39,6 @@ function resolveContentFiles(tailwindConfig, { skip = [] } = {}) {
 
   return tailwindConfig.content.files
 }
-
 /**
  * @typedef {object} ContentPath
  * @property {string} original
@@ -97,7 +95,6 @@ export function parseCandidateFiles(context, tailwindConfig) {
 
   return paths
 }
-
 /**
  *
  * @param {string} filePath
@@ -119,7 +116,6 @@ function parseFilePath(filePath, ignore) {
 
   return contentPath
 }
-
 /**
  *
  * @param {ContentPath} contentPath
@@ -141,14 +137,13 @@ function resolveGlobPattern(contentPath) {
 
   return contentPath
 }
-
 /**
  * Resolve each path relative to the config file (when possible) if the experimental flag is enabled
  * Otherwise, resolve relative to the current working directory
  *
- * @param {any} context
- * @param {ContentPath[]} contentPaths
- * @returns {ContentPath[]}
+ * @param {any} context - The context object containing user configuration path and tailwind configuration.
+ * @param {ContentPath[]} contentPaths - Array of content paths to be resolved.
+ * @returns {ContentPath[]} - Array of content paths with resolved base paths.
  */
 function resolveRelativePaths(context, contentPaths) {
   let resolveFrom = []
@@ -164,7 +159,6 @@ function resolveRelativePaths(context, contentPaths) {
     return contentPath
   })
 }
-
 /**
  * Resolve the symlink for the base directory / file in each path
  * These are added as additional dependencies to watch for changes because
@@ -191,7 +185,6 @@ function resolvePathSymlinks(contentPath) {
 
   return paths
 }
-
 /**
  * @param {any} context
  * @param {ContentPath[]} candidateFiles
@@ -212,7 +205,6 @@ export function resolvedChangedContent(context, candidateFiles, fileModifiedMap)
 
   return [changedContent, mTimesToCommit]
 }
-
 /**
  *
  * @param {ContentPath[]} candidateFiles

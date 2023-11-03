@@ -2,9 +2,7 @@ let path = require('path')
 let $ = require('../../execute')
 let { css, html, javascript } = require('../../syntax')
 let resolveToolRoot = require('../../resolve-tool-root')
-
 let version = require('../../../package.json').version
-
 let {
   cleanupFile,
   fileExists,
@@ -16,9 +14,13 @@ let {
   output: 'dist',
   input: 'src',
 })
-
 let EXECUTABLE = 'node ../../lib/cli.js'
-
+/**
+ * Removes leading whitespace from each line in a string. The amount of whitespace removed is determined by the line with the least amount of leading whitespace.
+ * 
+ * @param {string} input - The string to dedent.
+ * @returns {string} - The dedented string.
+ */
 function dedent(input) {
   let lines = input.split('\n')
 
@@ -32,7 +34,6 @@ function dedent(input) {
     .join('\n')
     .trim()
 }
-
 describe('Build command', () => {
   test('--output', async () => {
     await writeInputFile('index.html', html`<div class="font-bold shadow"></div>`)
@@ -500,7 +501,6 @@ describe('Build command', () => {
     )
   })
 })
-
 describe('Init command', () => {
   it.each([
     { flags: [], name: 'tailwind.config.js' },

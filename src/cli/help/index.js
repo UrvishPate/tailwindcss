@@ -1,6 +1,15 @@
 // @ts-check
 import packageJson from '../../../package.json'
-
+/**
+ * Prints a help message to the console.
+ * 
+ * @param {Object} args - The arguments to use for generating the help message.
+ * @param {string} args.message - The main message to display.
+ * @param {Array<string>} args.usage - An array of usage examples.
+ * @param {Array<string>} args.commands - An array of command examples.
+ * @param {Object} args.options - An object of options where each key is the option name and the value is the option description.
+ * @returns {void}
+ */
 export function help({ message, usage, commands, options }) {
   let indent = 2
 

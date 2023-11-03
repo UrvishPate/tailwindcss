@@ -1,6 +1,5 @@
 import crypto from 'crypto'
 import * as sharedState from './sharedState'
-
 /**
  * Calculate the hash of a string.
  *
@@ -16,7 +15,8 @@ import * as sharedState from './sharedState'
  *
  * See https://github.com/nodejs/node/issues/40455
  *
- * @param {string} str
+ * @param {string} str - The string to calculate the hash for.
+ * @returns {string} - The calculated hash of the string, or an empty string if an error occurred.
  */
 function getHash(str) {
   try {
@@ -25,7 +25,6 @@ function getHash(str) {
     return ''
   }
 }
-
 /**
  * Determine if the CSS tree is different from the
  * previous version for the given `sourcePath`.

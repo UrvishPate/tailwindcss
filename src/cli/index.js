@@ -3,11 +3,15 @@
 import path from 'path'
 import arg from 'arg'
 import fs from 'fs'
-
 import { build } from './build'
 import { help } from './help'
 import { init } from './init'
-
+/**
+ * Creates a function that checks if a given value is one of the specified options.
+ * 
+ * @param {...Function} options - The options to check against. Each option should be a function that accepts a value and returns the parsed value if it matches, or the original value otherwise.
+ * @returns {Function} - A function that accepts a value and checks if it is one of the specified options. If the value matches one of the options, the function returns the parsed value. If the value does not match any of the options, the function throws an error.
+ */
 function oneOf(...options) {
   return Object.assign(
     (value = true) => {
@@ -23,7 +27,6 @@ function oneOf(...options) {
     { manualParsing: true }
   )
 }
-
 let commands = {
   init: {
     run: init,
@@ -83,12 +86,10 @@ let commands = {
     },
   },
 }
-
 let sharedFlags = {
   '--help': { type: Boolean, description: 'Display usage information' },
   '-h': '--help',
 }
-
 if (
   process.stdout.isTTY /* Detect redirecting output to a file */ &&
   (process.argv[2] === undefined ||
@@ -106,9 +107,7 @@ if (
   })
   process.exit(0)
 }
-
 let command = ((arg = '') => (arg.startsWith('-') ? undefined : arg))(process.argv[2]) || 'build'
-
 if (commands[command] === undefined) {
   if (fs.existsSync(path.resolve(command))) {
     // TODO: Deprecate this in future versions
@@ -126,7 +125,6 @@ if (commands[command] === undefined) {
     process.exit(1)
   }
 }
-
 // Execute command
 let { args: flags, run } = commands[command]
 let args = (() => {
@@ -205,7 +203,6 @@ let args = (() => {
     throw err
   }
 })()
-
 if (args['--help']) {
   help({
     options: { ...flags, ...sharedFlags },
@@ -213,5 +210,4 @@ if (args['--help']) {
   })
   process.exit(0)
 }
-
 run(args)

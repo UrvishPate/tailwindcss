@@ -1,5 +1,4 @@
 import * as regex from './regex'
-
 export function defaultExtractor(context) {
   let patterns = Array.from(buildRegExps(context))
 
@@ -19,7 +18,6 @@ export function defaultExtractor(context) {
     return results
   }
 }
-
 function* buildRegExps(context) {
   let separator = context.tailwindConfig.separator
   let prefix =
@@ -116,12 +114,10 @@ function* buildRegExps(context) {
   // 5. Inner matches
   yield /[^<>"'`\s.(){}[\]#=%$]*[^<>"'`\s.(){}[\]#=%:$]/g
 }
-
 // We want to capture any "special" characters
 // AND the characters immediately following them (if there is one)
 let SPECIALS = /([\[\]'"`])([^\[\]'"`])?/g
 let ALLOWED_CLASS_CHARACTERS = /[^"'`\s<>\]]+/
-
 /**
  * Clips a string ensuring that parentheses, quotes, etc… are balanced
  * Used for arbitrary values only
@@ -203,13 +199,3 @@ function clipAtBalancedParens(input) {
 
   return input
 }
-
-// Regular utilities
-// {{modifier}:}*{namespace}{-{suffix}}*{/{opacityModifier}}?
-
-// Arbitrary values
-// {{modifier}:}*{namespace}-[{arbitraryValue}]{/{opacityModifier}}?
-// arbitraryValue: no whitespace, balanced quotes unless within quotes, balanced brackets unless within quotes
-
-// Arbitrary properties
-// {{modifier}:}*[{validCssPropertyName}:{arbitraryValue}]
