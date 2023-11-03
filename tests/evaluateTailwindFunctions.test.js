@@ -3,7 +3,6 @@ import path from 'path'
 import postcss from 'postcss'
 import plugin from '../src/lib/evaluateTailwindFunctions'
 import { run as runFull, html, css } from './util/run'
-
 function run(input, opts = {}) {
   return postcss([
     plugin({
@@ -14,7 +13,6 @@ function run(input, opts = {}) {
     }),
   ]).process(input, { from: undefined })
 }
-
 test('it looks up values in the theme using dot notation', () => {
   let input = css`
     .banana {
@@ -39,7 +37,6 @@ test('it looks up values in the theme using dot notation', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('it looks up values in the theme using bracket notation', () => {
   let input = css`
     .banana {
@@ -64,7 +61,6 @@ test('it looks up values in the theme using bracket notation', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('it looks up values in the theme using consecutive bracket notation', () => {
   let input = css`
     .banana {
@@ -91,7 +87,6 @@ test('it looks up values in the theme using consecutive bracket notation', () =>
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('it looks up values in the theme using bracket notation that have dots in them', () => {
   let input = css`
     .banana {
@@ -116,7 +111,6 @@ test('it looks up values in the theme using bracket notation that have dots in t
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('theme with mismatched brackets throws an error ', async () => {
   let config = {
     theme: {
@@ -144,7 +138,6 @@ test('theme with mismatched brackets throws an error ', async () => {
     `Path is invalid. Has unbalanced brackets: spacing[a[`
   )
 })
-
 test('color can be a function', () => {
   let input = css`
     .backgroundColor {
@@ -246,7 +239,6 @@ test('color can be a function', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('quotes are optional around the lookup path', () => {
   let input = css`
     .banana {
@@ -271,7 +263,6 @@ test('quotes are optional around the lookup path', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('a default value can be provided', () => {
   let input = css`
     .cookieMonster {
@@ -296,7 +287,6 @@ test('a default value can be provided', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('the default value can use the theme function', () => {
   let input = css`
     .cookieMonster {
@@ -321,7 +311,6 @@ test('the default value can use the theme function', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('quotes are preserved around default values', () => {
   let input = css`
     .heading {
@@ -346,7 +335,6 @@ test('quotes are preserved around default values', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('an unquoted list is valid as a default value', () => {
   let input = css`
     .heading {
@@ -371,7 +359,6 @@ test('an unquoted list is valid as a default value', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('a missing root theme value throws', () => {
   let input = css`
     .heading {
@@ -391,7 +378,6 @@ test('a missing root theme value throws', () => {
     `'colours.gray.100' does not exist in your theme config. Your theme has the following top-level keys: 'colors'`
   )
 })
-
 test('a missing nested theme property throws', () => {
   let input = css`
     .heading {
@@ -412,7 +398,6 @@ test('a missing nested theme property throws', () => {
     `'colors.red' does not exist in your theme config. 'colors' has the following valid keys: 'blue', 'yellow'`
   )
 })
-
 test('a missing nested theme property with a close alternative throws with a suggestion', () => {
   let input = css`
     .heading {
@@ -432,7 +417,6 @@ test('a missing nested theme property with a close alternative throws with a sug
     `'colors.yellw' does not exist in your theme config. Did you mean 'colors.yellow'?`
   )
 })
-
 test('a path through a non-object throws', () => {
   let input = css`
     .heading {
@@ -452,7 +436,6 @@ test('a path through a non-object throws', () => {
     `'colors.yellow.100' does not exist in your theme config. 'colors.yellow' is not an object.`
   )
 })
-
 test('a path which exists but is not a string throws', () => {
   let input = css`
     .heading {
@@ -470,7 +453,6 @@ test('a path which exists but is not a string throws', () => {
     })
   ).rejects.toThrowError(`'colors.yellow' was found but does not resolve to a string.`)
 })
-
 test('a path which exists but is invalid throws', () => {
   let input = css`
     .heading {
@@ -486,7 +468,6 @@ test('a path which exists but is invalid throws', () => {
     })
   ).rejects.toThrowError(`'colors' was found but does not resolve to a string.`)
 })
-
 test('a path which is an object throws with a suggested key', () => {
   let input = css`
     .heading {
@@ -506,7 +487,6 @@ test('a path which is an object throws with a suggested key', () => {
     `'colors' was found but does not resolve to a string. Did you mean something like 'colors.yellow'?`
   )
 })
-
 test('array values are joined by default', () => {
   let input = css`
     .heading {
@@ -531,7 +511,6 @@ test('array values are joined by default', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('font sizes are retrieved without default line-heights or letter-spacing', () => {
   let input = css`
     .heading-1 {
@@ -563,7 +542,6 @@ test('font sizes are retrieved without default line-heights or letter-spacing', 
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('outlines are retrieved without default outline-offset', () => {
   let input = css`
     .element {
@@ -586,7 +564,6 @@ test('outlines are retrieved without default outline-offset', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('font-family values are retrieved without font-variation-settings', () => {
   let input = css`
     .heading-1 {
@@ -625,7 +602,6 @@ test('font-family values are retrieved without font-variation-settings', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('font-variation-settings values can be retrieved', () => {
   let input = css`
     .heading {
@@ -652,7 +628,6 @@ test('font-variation-settings values can be retrieved', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('font-family values are joined when an array', () => {
   let input = css`
     .element {
@@ -677,7 +652,6 @@ test('font-family values are joined when an array', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('font-family values are retrieved without font-feature-settings', () => {
   let input = css`
     .heading-1 {
@@ -716,7 +690,6 @@ test('font-family values are retrieved without font-feature-settings', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('font-feature-settings values can be retrieved', () => {
   let input = css`
     .heading {
@@ -741,7 +714,6 @@ test('font-feature-settings values can be retrieved', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('box-shadow values are joined when an array', () => {
   let input = css`
     .element {
@@ -764,7 +736,6 @@ test('box-shadow values are joined when an array', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('transition-property values are joined when an array', () => {
   let input = css`
     .element {
@@ -789,7 +760,6 @@ test('transition-property values are joined when an array', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('transition-duration values are joined when an array', () => {
   let input = css`
     .element {
@@ -814,7 +784,6 @@ test('transition-duration values are joined when an array', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('basic screen function calls are expanded', () => {
   let input = css`
     @media screen(sm) {
@@ -837,7 +806,6 @@ test('basic screen function calls are expanded', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('screen function supports max-width screens', () => {
   let input = css`
     @media screen(sm) {
@@ -862,7 +830,6 @@ test('screen function supports max-width screens', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('screen function supports min-width screens', () => {
   let input = css`
     @media screen(sm) {
@@ -885,7 +852,6 @@ test('screen function supports min-width screens', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('screen function supports min-width and max-width screens', () => {
   let input = css`
     @media screen(sm) {
@@ -908,7 +874,6 @@ test('screen function supports min-width and max-width screens', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('screen function supports raw screens', () => {
   let input = css`
     @media screen(mono) {
@@ -933,7 +898,6 @@ test('screen function supports raw screens', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('screen arguments can be quoted', () => {
   let input = css`
     @media screen('sm') {
@@ -956,7 +920,6 @@ test('screen arguments can be quoted', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('Theme function can extract alpha values for colors (1)', () => {
   let input = css`
     .foo {
@@ -977,7 +940,6 @@ test('Theme function can extract alpha values for colors (1)', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('Theme function can extract alpha values for colors (2)', () => {
   let input = css`
     .foo {
@@ -998,7 +960,6 @@ test('Theme function can extract alpha values for colors (2)', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('Theme function can extract alpha values for colors (3)', () => {
   let input = css`
     .foo {
@@ -1021,7 +982,6 @@ test('Theme function can extract alpha values for colors (3)', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('Theme function can extract alpha values for colors (4)', () => {
   let input = css`
     .foo {
@@ -1044,7 +1004,6 @@ test('Theme function can extract alpha values for colors (4)', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('Theme function can extract alpha values for colors (5)', () => {
   let input = css`
     .foo {
@@ -1067,7 +1026,6 @@ test('Theme function can extract alpha values for colors (5)', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('Theme function can extract alpha values for colors (6)', () => {
   let input = css`
     .foo {
@@ -1092,7 +1050,6 @@ test('Theme function can extract alpha values for colors (6)', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('Theme function can extract alpha values for colors (7)', () => {
   let input = css`
     .foo {
@@ -1119,7 +1076,6 @@ test('Theme function can extract alpha values for colors (7)', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('Theme function can extract alpha values for colors (8)', () => {
   let input = css`
     .foo {
@@ -1150,7 +1106,6 @@ test('Theme function can extract alpha values for colors (8)', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('Theme functions replace the alpha value placeholder even with no alpha provided', () => {
   let input = css`
     .foo {
@@ -1180,7 +1135,6 @@ test('Theme functions replace the alpha value placeholder even with no alpha pro
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('Theme functions can reference values with slashes in brackets', () => {
   let input = css`
     .foo1 {
@@ -1211,7 +1165,6 @@ test('Theme functions can reference values with slashes in brackets', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 test('Theme functions with alpha value inside quotes', () => {
   let input = css`
     .foo {
@@ -1236,7 +1189,10 @@ test('Theme functions with alpha value inside quotes', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
+/**
+ * Test to check if the theme function works correctly with alpha value around color only.
+ * The function should correctly interpret the color value and apply the alpha value to it.
+ */
 test('Theme functions with alpha with quotes value around color only', () => {
   let input = css`
     .foo {
@@ -1261,7 +1217,6 @@ test('Theme functions with alpha with quotes value around color only', () => {
     expect(result.warnings().length).toBe(0)
   })
 })
-
 it('can find values with slashes in the theme key while still allowing for alpha values ', () => {
   let input = css`
     .foo00 {
@@ -1309,7 +1264,6 @@ it('can find values with slashes in the theme key while still allowing for alpha
     `)
   })
 })
-
 describe('context dependent', () => {
   let configPath = path.resolve(__dirname, './evaluate-tailwind-functions.tailwind.config.js')
   let filePath = path.resolve(__dirname, './evaluate-tailwind-functions.test.html')
@@ -1389,7 +1343,6 @@ describe('context dependent', () => {
     })
   })
 })
-
 test('it should handle square brackets inside `theme`, inside arbitrary properties', () => {
   let config = {
     content: [
