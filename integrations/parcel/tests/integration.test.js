@@ -1,6 +1,5 @@
 let $ = require('../../execute')
 let { css, html, javascript } = require('../../syntax')
-
 let {
   appendToInputFile,
   readOutputFile,
@@ -9,8 +8,13 @@ let {
   waitForOutputFileCreation,
   writeInputFile,
 } = require('../../io')({ output: 'dist', input: 'src' })
-
+/**
+ * Test suite for static build.
+ */
 describe('static build', () => {
+  /**
+   * Test case to check if it is possible to generate tailwind output.
+   */
   it('should be possible to generate tailwind output', async () => {
     await writeInputFile(
       'index.html',
@@ -33,6 +37,9 @@ describe('static build', () => {
     )
   })
 
+  /**
+   * Test case to check if a tailwind.config.js configuration file with ESM syntax can be used.
+   */
   it('can use a tailwind.config.js configuration file with ESM syntax', async () => {
     await removeFile('tailwind.config.js')
     await writeInputFile(
@@ -82,6 +89,9 @@ describe('static build', () => {
     )
   })
 
+  /**
+   * Test case to check if a tailwind.config.ts configuration file can be used.
+   */
   it('can use a tailwind.config.ts configuration file', async () => {
     await removeFile('tailwind.config.js')
     await writeInputFile(
@@ -133,7 +143,6 @@ describe('static build', () => {
     )
   })
 })
-
 describe('watcher', () => {
   test('classes are generated when the html file changes', async () => {
     await writeInputFile(
