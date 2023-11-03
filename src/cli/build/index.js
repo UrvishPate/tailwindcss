@@ -4,7 +4,18 @@ import fs from 'fs'
 import path from 'path'
 import { resolveDefaultConfigPath } from '../../util/resolveConfigPath.js'
 import { createProcessor } from './plugin.js'
-
+/**
+ * Builds the project based on the provided arguments.
+ * 
+ * @param {Object} args - An object containing the command line arguments.
+ * @param {string} args['--input'] - The input file to be processed.
+ * @param {boolean} args['--watch'] - Whether to watch the input file for changes.
+ * @param {string} args['--config'] - The path to the configuration file.
+ * @param {boolean} args['--no-autoprefixer'] - Whether to disable the autoprefixer.
+ * 
+ * @returns {Promise} - A promise that resolves when the build process is complete.
+ * @throws {Error} - If the specified input or config file does not exist.
+ */
 export async function build(args) {
   let input = args['--input']
   let shouldWatch = args['--watch']
