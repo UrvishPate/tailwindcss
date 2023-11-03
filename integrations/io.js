@@ -1,14 +1,21 @@
 let { rm, existsSync } = require('fs')
 let path = require('path')
 let fs = require('fs/promises')
-
 let chokidar = require('chokidar')
-
 let resolveToolRoot = require('./resolve-tool-root')
 let FILE_STATE = {
   NotFound: Symbol(),
 }
-
+/**
+ * Returns an object containing options for a file watcher.
+ * 
+ * @returns {Object} - An object containing options for a file watcher. The options include:
+ *  - usePolling: A boolean indicating whether to use polling to detect changes.
+ *  - interval: The interval at which to poll for changes, in milliseconds.
+ *  - awaitWriteFinish: An object containing options for waiting for the write operation to finish before triggering a change event. The options include:
+ *    - stabilityThreshold: The amount of time to wait for additional changes before triggering a change event, in milliseconds.
+ *    - pollInterval: The interval at which to poll for changes while waiting for the write operation to finish, in milliseconds.
+ */
 function getWatcherOptions() {
   return {
     usePolling: true,
@@ -19,7 +26,6 @@ function getWatcherOptions() {
     },
   }
 }
-
 module.exports = function ({
   /** Output directory, relative to the tool. */
   output = 'dist',
