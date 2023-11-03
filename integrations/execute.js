@@ -2,15 +2,15 @@ let fs = require('fs')
 let path = require('path')
 let { spawn } = require('child_process')
 let resolveToolRoot = require('./resolve-tool-root')
-
 let SHOW_OUTPUT = false
-
 let runningProcesses = []
-
+/**
+ * After each test, stop all running processes.
+ * This function is typically used in a testing environment to clean up any processes that were started during a test.
+ */
 afterEach(() => {
   runningProcesses.splice(0).forEach((runningProcess) => runningProcess.stop())
 })
-
 function debounce(fn, ms) {
   let state = { timer: undefined }
 
@@ -19,7 +19,6 @@ function debounce(fn, ms) {
     state.timer = setTimeout(() => fn(...args), ms)
   }
 }
-
 module.exports = function $(command, options = {}) {
   let abortController = new AbortController()
   let root = resolveToolRoot()
